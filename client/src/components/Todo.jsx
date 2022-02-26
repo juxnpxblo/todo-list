@@ -1,66 +1,60 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+
+import axios from 'axios';
+import API_ENTRY_POINT from '../utils/API_ENTRY_POINT';
+
+import calcHeight from '../utils/calcHeight';
 
 import {
   MdCheckBoxOutlineBlank,
   MdCheckBox,
   MdOutlineDriveFileRenameOutline,
 } from 'react-icons/md';
-
 import { FaTrash } from 'react-icons/fa';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import axios from 'axios';
 
-import API_ENTRY_POINT from '../utils/API_ENTRY_POINT';
-
-function auto_height(ref) {
-  ref.current.style.height = '1px';
-  ref.current.style.height = ref.current.scrollHeight + 'px';
-}
-
-const Todo = ({ todo: thisTodo, todos, setTodos }) => {
+const Todo = ({ thisTodo, todos, setTodos }) => {
   const [renaming, setRenaming] = useState(false);
   const [todoText, setTodoText] = useState(thisTodo.text);
 
-  const todoTextRef = useRef(null);
+  const renameTodoRef = useRef(null);
 
   useEffect(() => {
     if (renaming) {
-      todoTextRef.current.focus();
-      todoTextRef.current.selectionEnd = todoTextRef.current.value.length;
+      renameTodoRef.current.focus();
+      renameTodoRef.current.selectionEnd = renameTodoRef.current.value.length;
     }
   }, [renaming]);
 
-  const renameTodo = async () => {
+  const renameTodo = () => {
     setTodos(
       todos.map((todo) =>
         todo !== thisTodo ? todo : { ...todo, text: todoText }
       )
     );
 
-    await axios.put(API_ENTRY_POINT + `/todos/${thisTodo.id}`, {
+    axios.put(API_ENTRY_POINT + `/todos/${thisTodo.id}`, {
       operation: 'RENAME',
       payload: todoText,
     });
   };
 
-  const checkTodo = async () => {
+  const checkTodo = () => {
     setTodos(
       todos.map((todo) =>
         todo !== thisTodo ? todo : { ...todo, checked: !todo.checked }
       )
     );
 
-    await axios.put(API_ENTRY_POINT + `/todos/${thisTodo.id}`, {
+    axios.put(API_ENTRY_POINT + `/todos/${thisTodo.id}`, {
       operation: 'CHECK',
       payload: !thisTodo.checked,
     });
   };
 
-  const deleteTodo = async () => {
+  const deleteTodo = () => {
     setTodos(todos.filter((todo) => todo !== thisTodo));
 
-    await axios.delete(API_ENTRY_POINT + `/todos/${thisTodo.id}`);
+    axios.delete(API_ENTRY_POINT + `/todos/${thisTodo.id}`);
   };
 
   return (
@@ -82,21 +76,21 @@ const Todo = ({ todo: thisTodo, todos, setTodos }) => {
       </div>
       {renaming === true ? (
         <textarea
+          ref={renameTodoRef}
+          value={todoText}
           rows="1"
           className="ml-2 bg-inherit outline-none resize-none w-full overflow-hidden break-all"
-          ref={todoTextRef}
-          onKeyDown={(e) => {
-            if (e.code === 'Enter') {
-              todoTextRef.current.blur();
-            }
-          }}
-          onFocus={() => auto_height(todoTextRef)}
+          spellCheck="false"
+          onFocus={() => calcHeight(renameTodoRef)}
           onChange={(e) => {
-            auto_height(todoTextRef);
+            calcHeight(renameTodoRef);
             setTodoText(e.target.value);
           }}
-          value={todoText}
-          spellCheck="false"
+          onKeyDown={(e) => {
+            if (e.code === 'Enter') {
+              renameTodoRef.current.blur();
+            }
+          }}
           onBlur={() => {
             setRenaming(false);
             renameTodo();
