@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-import axios from 'axios';
-import API_ENTRY_POINT from './utils/API_ENTRY_POINT';
+import api from './api/api';
 
 import getStoredBgColor from './utils/getStoredBgColor';
 import setBgColor from './utils/setBgColor';
@@ -30,7 +29,7 @@ const App = () => {
 
     (async () => {
       setLoadingTodos(true);
-      setTodos((await axios.get(API_ENTRY_POINT + '/todos')).data);
+      setTodos((await api.get('/todos')).data);
       setLoadingTodos(false);
     })();
   }, []);
@@ -40,7 +39,7 @@ const App = () => {
   const addNewTodo = async () => {
     setCreatingTodo(true);
 
-    const res = await axios.post(API_ENTRY_POINT + '/todos', { text: '' });
+    const res = await api.post('/todos', { text: '' });
     setTodos([...todos, { id: res.data, text: '' }]);
 
     setCreatingTodo(false);

@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 
-import axios from 'axios';
-import API_ENTRY_POINT from '../utils/API_ENTRY_POINT';
+import api from '../api/api';
 
 import calcHeight from '../utils/calcHeight';
 
@@ -32,7 +31,7 @@ const Todo = ({ thisTodo, todos, setTodos }) => {
       )
     );
 
-    axios.put(API_ENTRY_POINT + `/todos/${thisTodo.id}`, {
+    api.put(`/todos/${thisTodo.id}`, {
       operation: 'RENAME',
       payload: todoText,
     });
@@ -45,7 +44,7 @@ const Todo = ({ thisTodo, todos, setTodos }) => {
       )
     );
 
-    axios.put(API_ENTRY_POINT + `/todos/${thisTodo.id}`, {
+    api.put(`/todos/${thisTodo.id}`, {
       operation: 'CHECK',
       payload: !thisTodo.checked,
     });
@@ -54,7 +53,7 @@ const Todo = ({ thisTodo, todos, setTodos }) => {
   const deleteTodo = () => {
     setTodos(todos.filter((todo) => todo !== thisTodo));
 
-    axios.delete(API_ENTRY_POINT + `/todos/${thisTodo.id}`);
+    api.delete(`/todos/${thisTodo.id}`);
   };
 
   return (
