@@ -1,0 +1,27 @@
+{
+  "name": "todo-pern",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server",
+    "build": "cd server/ && npm install && cd .. && cd client/ && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juxnpxblo/todo-pern.git"
+  },
+  "keywords": [],
+  "author": "Juan P Carrilho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juxnpxblo/todo-pern/issues"
+  },
+  "homepage": "https://github.com/juxnpxblo/todo-pern#readme",
+  "engines": {
+    "node": "16.x"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
