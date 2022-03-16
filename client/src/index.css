@@ -21,7 +21,7 @@ body {
   height: 100%;
 }
 
-/* Show delete/rename icons on to-do hover */
+/* Show delete/edit icons on to-do hover */
 .todo:hover > :nth-child(3) {
   opacity: 1;
   visibility: visible;

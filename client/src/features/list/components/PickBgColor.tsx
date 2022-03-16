@@ -1,4 +1,4 @@
-const PickBgColor = ({ color }) => {
+const PickBgColor = ({ color }: { color: string }) => {
   return (
     <div
       className="bg-color cursor-pointer w-[24px] h-[24px] border-2 rounded-md border-[#262626]"

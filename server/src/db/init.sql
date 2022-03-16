@@ -1,5 +1,5 @@
 CREATE TABLE todos (
 	id SERIAL PRIMARY KEY,
-	text TEXT,
-	checked BOOLEAN NOT NULL
+	todo TEXT,
+	done BOOLEAN NOT NULL
 );

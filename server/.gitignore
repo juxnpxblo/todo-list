@@ -1,8 +1,7 @@
-# Node build artifacts
-node_modules
-npm-debug.log
+# Logs
+logs
+*.log
+npm-debug.log*
 
-# Local development
+node_modules
 *.env
-*.dev
-.DS_Store
