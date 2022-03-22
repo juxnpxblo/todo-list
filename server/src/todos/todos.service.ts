@@ -1,4 +1,4 @@
-import { useQuery } from '../db';
+import { useQuery } from '../config/database/db';
 import { Todo, TodoId } from './todo.interface';
 
 export const getAll = async () => {
